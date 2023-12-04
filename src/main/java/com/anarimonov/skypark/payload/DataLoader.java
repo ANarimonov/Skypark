@@ -4,6 +4,7 @@ import com.anarimonov.skypark.entity.Admin;
 import com.anarimonov.skypark.repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class DataLoader implements Runnable{
+public class DataLoader implements CommandLineRunner {
     @Value("${token}")
     String token;
 
@@ -24,7 +25,7 @@ public class DataLoader implements Runnable{
     private final AdminRepository adminRepository;
 
     @Override
-    public void run() {
+    public void run(String... args) {
         if (initMode.equals("create"))
             adminRepository.save(new Admin("SkyParkAdmin", "s!k@y#p@r$k%a^d&m*i(n)"));
         while (true) {
@@ -50,7 +51,7 @@ public class DataLoader implements Runnable{
             List<String> command = Arrays.asList(
                     "/usr/lib/postgresql/14/bin/pg_dump",
                     "-U", "postgres",
-                    "-d", "cazoo_db",
+                    "-d", "skypark",
                     "-f", fileName
             );
             ProcessBuilder processBuilder = new ProcessBuilder(command);
@@ -123,7 +124,7 @@ public class DataLoader implements Runnable{
 
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String inputLine;
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
 
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
