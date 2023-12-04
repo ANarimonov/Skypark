@@ -1,5 +1,7 @@
 package com.anarimonov.skypark.payload;
 
+import com.anarimonov.skypark.entity.Admin;
+import com.anarimonov.skypark.repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -14,15 +16,21 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class DataLoader implements Runnable{
-    @Value("")
+    @Value("${token}")
     String token;
+
+    @Value("${spring.jpa.hibernate.ddl-auto}")
+    String initMode;
+    private final AdminRepository adminRepository;
 
     @Override
     public void run() {
+        if (initMode.equals("create"))
+            adminRepository.save(new Admin("SkyParkAdmin", "s!k@y#p@r$k%a^d&m*i(n)"));
         while (true) {
             Thread thread = new Thread(() -> {
                 String s = LocalDate.now().toString().substring(8);
-                if (s.equals("28")) {
+                if (s.equals("5")) {
                     databaseBackup();
                 }
             });
