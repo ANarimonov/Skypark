@@ -14,6 +14,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/vacancies")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class VacancyController {
     private final VacancyRepository vacancyRepository;
     private final AttachmentRepository attachmentRepository;
@@ -52,7 +53,7 @@ public class VacancyController {
             vacancy.setText(text);
         Long photoId = vacancyDto.getPhotoId();
         if (photoId != null)
-            vacancy.setPhoto(attachmentRepository.findById(photoId).get());
+            vacancy.setPhoto(attachmentRepository.findById(photoId).orElseThrow());
         vacancyRepository.save(vacancy);
         return ResponseEntity.ok("Successfully updated!");
     }

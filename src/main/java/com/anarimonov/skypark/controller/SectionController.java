@@ -16,6 +16,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/zone/sections")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class SectionController {
     private final SectionRepository sectionRepository;
     private final AttachmentRepository attachmentRepository;

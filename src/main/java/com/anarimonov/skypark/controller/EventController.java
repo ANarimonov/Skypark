@@ -15,6 +15,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/events")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class EventController {
     private final AttachmentRepository attachmentRepository;
     private final EventRepository eventRepository;
